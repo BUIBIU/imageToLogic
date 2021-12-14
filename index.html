@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./js/jquery.min.js"></script>
+  <script src="./js/vue.min.js"></script>
+  <script src="./js/main.js"></script>
+  <title>Document</title>
+  <style>
+    .copyed {
+      color: red;
+    }
+    #showimage{
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div>
+      输出大小<input type="text" v-model="size" name="输出大小" id="size" />
+    </div>
+    <div>
+      压缩精度(0~7)<input type="text" v-model="compress" name="压缩精度" placeholder="0~7" id="compress" />
+    </div>
+    <div>
+      屏幕名称<input type="text" v-model="screenname" name="屏幕名称" placeholder="display1" />
+    </div>
+
+    <input type="file" id="filegetter" accept="image/*" />
+    <input type="button" value="点击转换" :disabled="!haveimage" @click="changeImage" />
+    <div style="height: 200px; width: 200px">
+      <canvas id="showimage"></canvas>
+    </div>
+
+    <div style="margin-top:10px">
+      <input :class="{'copyed':code.copyed}" type="submit" :value="'复制处理器 ' + index" v-for="(code, index) in codedata"
+        :key="index" @click="copy(code)" />
+    </div>
+    <textarea name="" id="textarea" cols="30" rows="10" style="height:100px; width: 100px;margin-top:10px"></textarea>
+    <div>
+      本工具由 BUI 编写，转载请声明出处
+      <!-- 请勿删除此行 -->
+    </div>
+    <div>
+      压缩精度值越大，图片失真越严重，处理器数量越少。数值范围为0~7，0即为无压缩。转换后将显示预览图，请根据预览图自行决定压缩力度。
+    </div>
+    <div>
+      点击按钮复制处理器按钮，网页将自动复制代码至剪贴板，若无效，请自行全选复制下方文本域中的内容。
+    </div>
+    <div>
+      不要问我网页为什么那么简陋，因为我懒，凑合用吧。
+    </div>
+    <div>
+      若遇到BUG请至{{'<Mindustry>'}}群联系我本人
+    </div>
+    <div>
+      本网页不会永久在线，若有需要请自行另存为
+    </div>
+  </div>
+</body>
+
+</html>
