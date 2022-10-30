@@ -1,3 +1,5 @@
+import { Msch } from './msch/index.js'
+import {Block,LogicBlock} from './msch/blocks/index.js'
 var app = null
 window.onload = function () {
     app = new Vue({
@@ -8,7 +10,7 @@ window.onload = function () {
             ctx: null,
             image: null,
             screenname: "display1",
-            size: 80,
+            size: 176,
             compress: 2,
             codedata: [],
             colorMap: null,
@@ -52,6 +54,40 @@ window.onload = function () {
                 this.compressPic(cutImage);
                 this.ctx.putImageData(cutImage, 0, 0, 0, 0, this.size, this.size);
                 this.getColorMap(cutImage);
+
+                console.log(this.codedata);
+
+                const msch = new Msch()
+                const chipCount = this.codedata.length
+                const chipHeight = Math.ceil(chipCount/6)
+                msch.width = 6
+                msch.height = 6+chipHeight
+                msch.tags = {
+                    name:'pic-out',
+                    description:''
+                }
+                const screen = new Block('large-logic-display',{x:2,y:2},3,null)
+
+                msch.blocks.push(screen)
+                this.codedata.forEach(({code},index)=>{
+                    const x = index%6
+                    const y = Math.floor(index/6)+6
+                    const block =  new LogicBlock('micro-processor',{x,y},3,null)
+                    block.code = code
+                    block.links.push({
+                        name:this.screenname,
+                        x: 2 - x,
+                        y: 2 - y
+                    })
+                    msch.blocks.push(block)
+                })
+                const out = msch.write()
+                const base64 = btoa(
+                    out.reduce((data, byte) => data + String.fromCharCode(byte), '')
+                )
+                this.textarea.value = base64;
+                this.textarea.select();
+                document.execCommand("copy");
             },
             copy(code) {
                 this.$set(code,'copyed',true)
