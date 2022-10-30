@@ -16,6 +16,7 @@ window.onload = function () {
             colorMap: null,
             textarea: null,
             haveimage: false,
+            mschName:'pic'
         },
         components: {},
         methods: {
@@ -63,7 +64,7 @@ window.onload = function () {
                 msch.width = 6
                 msch.height = 6+chipHeight
                 msch.tags = {
-                    name:'pic-out',
+                    name: this.mschName,
                     description:''
                 }
                 const screen = new Block('large-logic-display',{x:2,y:2},3,null)
